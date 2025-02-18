@@ -4,124 +4,107 @@ This folder structure is designed for the NBA Player Data Web App project, align
 
 ```
 nba-player-data-app/
-├── frontend/
-│   ├── public/                      # Static assets (images, fonts, etc.)
-│   ├── src/
-│   │   ├── app/                     # Next.js App Router (pages directory in Pages Router if using that)
-│   │   │   ├── api/                 # Frontend API routes (if any, for server-side logic in Next.js)
-│   │   │   ├── auth/                # Authentication related pages (login, signup, etc.)
-│   │   │   ├── dashboard/           # User Dashboard page
-│   │   │   ├── games/               # Game Scores & Schedules page
-│   │   │   ├── players/             # Player Search and Player Detail pages
-│   │   │   │   ├── [playerId]/      # Dynamic route for Player Detail page
-│   │   │   ├── compare/             # Player Comparison page
-│   │   │   ├── settings/            # User Settings page
-│   │   │   ├── subscription-success/ # Subscription success page
-│   │   │   ├── subscription-cancel/  # Subscription cancel page
-│   │   │   ├── layout.tsx           # Root layout for the app
-│   │   │   ├── page.tsx             # Homepage
-│   │   │   └── ...                  # Other pages
-│   │   ├── components/            # React components (Shadcn UI and custom)
-│   │   │   ├── ui/                  # Shadcn UI components (organized as needed)
-│   │   │   │   ├── button.tsx
-│   │   │   │   ├── ...              # Other Shadcn UI components
-│   │   │   ├── common/              # Reusable components across modules
-│   │   │   │   ├── PlayerCard.tsx
-│   │   │   │   ├── ...
-│   │   │   ├── auth/                # Authentication form components
-│   │   │   │   ├── LoginForm.tsx
-│   │   │   │   ├── SignupForm.tsx
-│   │   │   │   └── ...
-│   │   │   ├── dashboard/           # Dashboard specific components
-│   │   │   │   ├── FavoritePlayersSection.tsx
-│   │   │   │   ├── TrendingPlayersSection.tsx
-│   │   │   │   └── ...
-│   │   │   ├── games/               # Game Scores & Schedules components
-│   │   │   │   ├── GameScoreCard.tsx
-│   │   │   │   └── ...
-│   │   │   ├── players/             # Player related components
-│   │   │   │   ├── PlayerSearchbar.tsx
-│   │   │   │   ├── PlayerDataTable.tsx
-│   │   │   │   └── ...
-│   │   │   ├── compare/             # Player Comparison components
-│   │   │   │   ├── PlayerComparisonTable.tsx
-│   │   │   │   ├── BarChartComponent.tsx      # Example Data Visualization Component
-│   │   │   │   └── ...
-│   │   │   └── settings/            # User Settings components
-│   │   │       ├── ProfileSettingsForm.tsx
-│   │   │       ├── PreferencesSettingsForm.tsx
-│   │   │       └── ...
-│   │   ├── contexts/              # React Contexts (if using Context API for state management)
-│   │   │   ├── AuthContext.tsx
-│   │   │   └── ...
-│   │   ├── styles/               # Global styles and component styles
-│   │   │   ├── globals.css
-│   │   │   └── ...
-│   │   ├── utils/                # Utility functions (API calls, helpers, etc.)
-│   │   │   ├── api.ts             # Functions for making API calls to backend
-│   │   │   ├── helpers.ts         # General utility functions
-│   │   │   └── supabaseClient.ts  # Supabase client initialization
-│   │   ├── types/                 # TypeScript types and interfaces
-│   │   │   ├── player.ts
-│   │   │   ├── game.ts
-│   │   │   ├── subscription.ts
-│   │   │   └── ...
-│   │   ├── _app.tsx               # Next.js custom App component
-│   │   └── index.tsx              # (If using Pages Router, for homepage in 'pages' dir)
-│   ├── .env.local                 # Frontend environment variables
-│   ├── next.config.js             # Next.js configuration
+├── backend/             # Express.js Backend
+│   ├── pages/
+│   │    └── api/             # API Routes (similar to Next.js API routes, but for Express)
+│   │        ├── auth/       # Authentication related routes
+│   │        │    ├── signup.js      # User signup (if needed, Supabase handles much of this)
+│   │        │    ├── login.js       # User login (if needed, Supabase handles much of this)
+│   │        │    └── ...
+│   │        ├── players/    # Player related routes
+│   │        │    ├── search.js     # Player search endpoint
+│   │        │    ├── [playerId].js  # Dynamic route for individual player data
+│   │        │    └── compare.js   # Player comparison endpoint
+│   │        ├── games/      # Games (scores, schedules) endpoints
+│   │        │    ├── live.js        # Live game scores
+│   │        │    └── schedule.js   # Game schedules
+│   │        ├── users/      # User related endpoints (favorites, etc.)
+│   │        │    └── favorites/
+│   │        │         ├── players.js # Favorite players management
+│   │        │         └── teams.js   # Favorite teams management (optional)
+│   │        ├── settings.js      # User settings endpoints (GET, PUT/PATCH)
+│   │        ├── teams.js         # API endpoint for teams
+│   │        ├── stripe-webhook.js  # Stripe webhook handler
+│   │        └── create-checkout-session.js  #Stripe checkout session
+│   │        └── stripe-customer-portal-url.js # Stripe Customer Portal
+│   │        └── dashboard/  # Dashboard Data
+│   │             ├── favorites.js    # Favorite players data
+│   │             ├── trending.js    # Trending players data
+│   │             └── recent-searches.js  # Recent searches data (if applicable)
+│   ├── utils/          # Utility functions for the backend
+│   │    ├── supabase-admin.js  # Supabase Admin SDK initialization (if needed)
+│   │    ├── nba-api.js       # Functions to interact with the NBA API
+│   │    ├── cache.js          # In-memory caching implementation
+│   │    └── middleware.js      # Custom Express middleware (e.g., authentication check)
+│   ├── .env.local        # Backend environment variables
 │   ├── package.json
-│   ├── tsconfig.json
+│   ├── server.js        # Express server entry point
 │   └── ...
-├── backend/
-│   ├── pages/                     # Backend API routes (Express.js) - using Next.js API routes structure for backend
-│   │   ├── api/
-│   │   │   ├── auth/              # Authentication related backend routes (if needed)
-│   │   │   ├── dashboard/         # Dashboard data API endpoints
-│   │   │   │   ├── favorites.js
-│   │   │   │   ├── trending.js
-│   │   │   │   ├── recent-searches.js
-│   │   │   │   └── ...
-│   │   │   ├── games/             # Game Scores & Schedules API endpoints
-│   │   │   │   ├── live.js
-│   │   │   │   ├── schedule.js
-│   │   │   │   └── ...
-│   │   │   ├── players/           # Player related API endpoints
-│   │   │   │   ├── search.js
-│   │   │   │   ├── [playerId].js
-│   │   │   │   ├── compare.js
-│   │   │   │   └── ...
-│   │   │   ├── settings.js        # User Settings API endpoints
-│   │   │   ├── stripe/            # Stripe related API endpoints
-│   │   │   │   ├── create-checkout-session.js
-│   │   │   │   ├── stripe-webhook.js
-│   │   │   │   ├── customer-portal-url.js # Stripe Customer Portal URL endpoint
-│   │   │   │   └── ...
-│   │   │   ├── teams.js           # Teams data API endpoint (for preferred team dropdown)
-│   │   │   └── ...
-│   │   └── index.js               # (Optional: Backend index route if needed)
-│   ├── controllers/             # Backend controllers (logic for routes)
-│   │   ├── authController.js
-│   │   ├── dashboardController.js
-│   │   ├── gamesController.js
-│   │   ├── playersController.js
-│   │   ├── settingsController.js
-│   │   ├── stripeController.js
-│   │   └── ...
-│   ├── middleware/              # Express.js middleware (authentication, etc.)
-│   │   ├── authMiddleware.js
-│   │   └── ...
-│   ├── utils/                   # Backend utility functions (caching, API calls, DB helpers)
-│   │   ├── cache.js             # In-memory caching implementation
-│   │   ├── nbaApi.js            # Functions for interacting with NBA API
-│   │   ├── supabaseAdmin.js     # Supabase Admin SDK initialization
-│   │   └── ...
-│   ├── config/                  # Configuration files (if needed)
-│   │   └── ...
-│   ├── .env.local                 # Backend environment variables
+│
+├── frontend/            # Next.js Frontend
+│   ├── components/      # Reusable React components
+│   │    ├── auth/       # Authentication related components
+│   │    │     ├── LoginForm.js
+│   │    │     ├── SignupForm.js
+│   │    │     └── ...
+│   │    ├── dashboard/  # Dashboard specific components
+│   │    │     ├── FavoritePlayersSection.js
+│   │    │     ├── TrendingPlayersSection.js
+│   │    │     └── ...
+│   │    ├── games/       # Game components (score card, schedule, etc.)
+│   │    │     ├── GameScoreCard.js
+│   │    │     └── ...
+│   │    ├── players/      # Player related components
+│   │    │     ├── PlayerCard.js     # Display player info in search results/lists
+│   │    │     ├── PlayerSearch.js   # Search bar component
+│   │    │     ├── BarChartComponent.js # Chart component
+│   │    │     └── ...
+│   │    ├── ui/       # Generic UI components (wrappers around Shadcn components)
+│   │    │     ├── Button.js
+│   │    │     ├── Input.js
+│   │    │     └── ...
+│   │    └── ...         # Other shared components
+│   ├── pages/           # Next.js pages (routes)
+│   │    ├── api/           # Next.js API Routes (should be minimal, mainly proxying to backend)
+│   │    │    ├── players/    # Player related routes
+│   │    │    │   ├── search.js
+│   │    │    │   ├── [playerId].js
+│   │    │    │   └── compare.js
+│   │    │    ├── games/
+│   │    │    │   ├── live.js
+│   │    │    │   └── schedule.js
+│   │    │    ├── users/
+│   │    │    │   └── favorites/
+│   │    │    │       └── players.js
+│   │    │    │       └── teams.js
+│   │    │    ├── settings.js
+│   │    │    ├── stripe-webhook.js
+│   │    │    └── create-checkout-session.js
+│   │    ├── auth/         # Authentication related pages
+│   │    │    ├── login.js
+│   │    │    ├── signup.js
+│   │    │    └── ...
+│   │    ├── compare/      # Player comparison page
+│   │    │    └── index.js
+│   │    ├── dashboard.js   # User dashboard page
+│   │    ├── games.js      # Game scores and schedules page
+│   │    ├── players/      # Player search and detail pages
+│   │    │    ├── [playerId].js  # Dynamic route for player detail page
+│   │    │    └── index.js       # Player search page
+│   │    ├── settings.js   # User settings page
+│   │    ├── subscription-success.js  # Stripe success redirect page
+│   │    ├── subscription-cancel.js   # Stripe cancel redirect page
+│   │    ├── _app.js        # Custom App component (for global styles, Supabase client)
+│   │    └── index.js       # Homepage
+│   ├── public/          # Static assets (images, etc.)
+│   ├── styles/          # Global CSS styles
+│   ├── utils/           # Utility functions for the frontend
+│   │    └── supabase-client.js  # Supabase client initialization
+│   ├── .env.local        # Frontend environment variables
 │   ├── package.json
-│   └── server.js                # Main Express.js server file (or index.js)
-├── .gitignore                   # Git ignore file
+│   └── ...
+│
+├── .gitignore
 ├── README.md
 └── brainstorm.md               # Brainstorming document
 └── general_instructions.md      # General instructions document
