@@ -7,16 +7,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+console.log('Environment variables loaded:', {
+  port: process.env.PORT,
+  supabaseUrl: process.env.SUPABASE_URL ? 'Set' : 'Not set',
+  supabaseKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'Set' : 'Not set'
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'healthy' });
 });
 
 // Import and use route handlers
-app.use('/api/players', require('./pages/api/players'));
-app.use('/api/games', require('./pages/api/games'));
-app.use('/api/users', require('./pages/api/users'));
-app.use('/api/stripe-webhook', require('./pages/api/stripe-webhook'));
+const playersRouter = require('./pages/api/players');
+app.use('/api/players', playersRouter);
 
 const PORT = process.env.PORT || 3001;
 
